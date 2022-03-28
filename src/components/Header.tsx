@@ -14,7 +14,7 @@ interface AppBarProps extends MuiAppBarProps {
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps>(({ theme, open }) => ({
+})<AppBarProps>(({ theme, open}) => ({
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
@@ -27,22 +27,19 @@ const AppBar = styled(MuiAppBar, {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
-  }),
+  })
 }));
 
 export default function Header() {
   const [controller, dispatch] = useMaterialUIController();
   const {
+    mainColor,
     sidenav,
     category
   } = controller;
 
-  const toggleSidenav = () => {
-    setSidenav(dispatch, !sidenav);
-  };
-
   return (
-    <AppBar position="absolute" open={sidenav}>
+    <AppBar position="absolute" open={sidenav} style={{backgroundColor: mainColor.main}}>
         <Toolbar
           sx={{ pr: '24px', // keep right padding when drawer closed
           }}
@@ -51,7 +48,7 @@ export default function Header() {
               edge="start"
               color="inherit"
               aria-label="open drawer"
-              onClick={toggleSidenav}
+              onClick={() => {setSidenav(dispatch, !sidenav)}}
               sx={{
                 marginRight: '36px',
                 ...(sidenav && { display: 'none' }),

@@ -5,6 +5,7 @@ import { useTheme, PaletteColor } from '@mui/material/styles'
 
 interface State {
   mainColor: PaletteColor;
+  // colorType: "primary" | "secondary" | "error" | "warning" | "success";
   sidenav: boolean;
   category: string;
   viewMore: boolean;
@@ -18,8 +19,27 @@ interface Action {
 const MaterialUI = createContext<[State, React.Dispatch<Action>] | undefined>(undefined);
 
 const reducer : Reducer<State, Action> = (state, action) : State => {
+
+  // const colorType = () : "primary" | "secondary" | "error" | "warning" | "success" => {
+  //   const theme = useTheme();
+  //   switch (action.value) {
+  //     case theme.palette.primary : 
+  //       return "primary";
+  //     case theme.palette.secondary : 
+  //       return "secondary";
+  //     case theme.palette.error : 
+  //       return "error";
+  //     case theme.palette.warning : 
+  //       return "warning";
+  //     case theme.palette.success :
+  //       return "success";
+  //     default :
+  //       throw new Error(`Unhandled action type: ${action.type}`);
+  //   }
+  // }
+
   if (action.type === "MAIN_COLOR" && typeof action.value !== 'boolean' && typeof action.value !== 'string') {
-    return { ...state, mainColor: action.value };
+    return { ...state, mainColor: action.value};
   } else if (action.type === "SIDENAV" && typeof action.value === 'boolean') {
     return { ...state, sidenav: action.value };
   } else if (action.type === "CATEGORY" && typeof action.value === 'string') {
@@ -36,6 +56,7 @@ const MaterialUIControllerProvider: FC = ({ children }) => {
 
   const initialState : State = {
     mainColor: theme.palette.primary,
+    // colorType: "primary",
     sidenav: true,
     category: 'Dashboard',
     viewMore: true
@@ -44,7 +65,7 @@ const MaterialUIControllerProvider: FC = ({ children }) => {
   const [controller, dispatch] = useReducer(reducer, initialState);
 
   const value : [State, React.Dispatch<Action>] = useMemo(() => [controller, dispatch], [controller, dispatch]);
-
+  {console.log(controller)}
   return <MaterialUI.Provider value={value}>{children}</MaterialUI.Provider>;
 }
 

@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useLocation } from "react-router-dom";
 
 import { Toolbar, Container, Grid, Paper } from '@mui/material';
 
@@ -10,11 +11,16 @@ import Orders from './Orders';
 
 export default function Dashboard() {
   const [controller, dispatch] = useMaterialUIController();
+  const location = useLocation();
 
   useEffect(() => {
-    setCategory(dispatch, 'Dashboard');
-    setViewMore(dispatch, true);
-  }, []);
+    const handleContext = () => {
+      setCategory(dispatch, 'Dashboard');
+      setViewMore(dispatch, true);
+    }
+    handleContext();
+
+  }, [dispatch, location]);
 
   return (
     <>

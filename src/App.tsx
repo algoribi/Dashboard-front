@@ -9,7 +9,10 @@ import Sidenav from "components/Sidenav";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Box } from "@mui/system";
 
+import { useMaterialUIController, setCategory, setViewMore } from 'context'
+
 export default function App() {
+  const [, dispatch] = useMaterialUIController();
   const { pathname } = useLocation();
   
   // setting page scroll to 0

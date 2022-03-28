@@ -52,9 +52,9 @@ const data = [
 export default function Customers() {
   const [controller, dispatch] = useMaterialUIController();
 
-  useEffect(() => {
-    setCategory(dispatch, 'Customers');
-  }, []);
+  // useEffect(() => {
+  //   setCategory(dispatch, 'Customers');
+  // }, []);
 
   return (
     <Grid item xs={12} mt={8}>
