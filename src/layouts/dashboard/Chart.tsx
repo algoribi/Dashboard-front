@@ -1,6 +1,7 @@
 import { useTheme } from '@mui/material/styles';
 import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts'; // https://recharts.org/en-US/api
 
+import { useMaterialUIController } from 'context';
 import Title from 'components/Title';
 
 const data = [
@@ -16,6 +17,8 @@ const data = [
 ];
 
 export default function Chart() {
+  const [controller, ] = useMaterialUIController();
+  const { mainColor } = controller;
   const theme = useTheme();
 
   return (
@@ -50,7 +53,7 @@ export default function Chart() {
           <Line
             type="monotone"
             dataKey="amount"
-            stroke={theme.palette.primary.main}
+            stroke={mainColor.main}
             dot={true} />
         </LineChart>
       </ResponsiveContainer>

@@ -1,18 +1,26 @@
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 
-import { Container, Grid, Paper, Box, Typography, ListItemButton } from '@mui/material';
-import { useTheme } from '@mui/material/styles'
+// mui
+import { Container, Grid, Paper, Box, Typography, ListItemButton, Switch } from '@mui/material';
+import { useTheme, PaletteColor } from '@mui/material/styles'
 
-import { useMaterialUIController, setCategory, setMainColor } from 'context'
+import { useMaterialUIController, setCategory, setMainColor, setFixNavbar } from 'context'
 
 export default function Configurator() {
   const [controller, dispatch] = useMaterialUIController();
   const {
-    mainColor
+    mainColor,
+    fixNavbar
   } = controller;
   const theme = useTheme();
+  
+  useEffect(() => {
+    setCategory(dispatch, 'Configurator');
+  }, []);
 
-  const color = [
+  const color : {
+    id: "primary" | "secondary" | "error" | "warning" | "success";
+    color: PaletteColor; }[] = [
     {
       id : 'primary',
       color : theme.palette.primary
@@ -35,25 +43,14 @@ export default function Configurator() {
     }
   ];
 
-  const colorBoxStyles = {
-    m: 1,
-    border: 1,
-    width: '2rem',
-    height: '2rem',
-    borderRadius: '50%'
+  const findColor = () : "primary" | "secondary" | "error" | "warning" | "success" => {
+    const colorName = color.filter(item => item.color === mainColor);
+    if (colorName.length === 1) {
+      return colorName[0].id;
+    } else {
+      return "primary";
+    }
   }
-
-  const configuratorPaperStyles = {
-    m: 2,
-    p: 4,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems:'center'
-  }
-
-  // useEffect(() => {
-  //   setCategory(dispatch, 'Configurator');
-  // }, []);
 
   return (
     <Container>
@@ -61,34 +58,35 @@ export default function Configurator() {
         <Grid item xs={12} sx={{display: 'flex', flexDirection: 'column', alignItems:'center'}}>
           <Typography variant="h4" color={mainColor.main}>Material UI Configurator</Typography>
           <Typography variant="body1" color={mainColor.light} mb={1}>See our dashboard options!</Typography>
-          <Grid item xs={12} sx={{ p: 2, display: 'flex' }} >
+          <Paper sx={{
+            m: 3,
+            p: 4,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems:'center',
+            width : 600 }} >
             {/* theme colors */}
-            <Paper sx={{ ...configuratorPaperStyles }} >
-              <Typography variant="h6" color={mainColor.main} mb={1}>Theme Colors</Typography>
-              <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                {color.map(item => {
-                  return (
-                    <ListItemButton sx={{ ...colorBoxStyles, bgcolor: item.color.light, borderColor: item.color.main }}
-                      onClick={() => {setMainColor(dispatch, item.color)}}
-                      key={item.id} />
-                  )
-                })}
-              </Box>
-            </Paper>
-            {/*  */}
-            <Paper sx={{ ...configuratorPaperStyles }} >
-              <Typography variant="h6" color={mainColor.main} mb={1}>Theme Colors</Typography>
-              <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                {color.map(item => {
-                  return (
-                    <ListItemButton sx={{ ...colorBoxStyles, bgcolor: item.color.light, borderColor: item.color.main }}
-                      onClick={() => {setMainColor(dispatch, item.color)}}
-                      key={item.id} />
-                  )
-                })}
-              </Box>
-            </Paper>
-          </Grid>
+            <Typography variant="h6" color={mainColor.main} mb={2}>Theme Colors</Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+              {color.map(item => {
+                return (
+                  <ListItemButton sx={{
+                    m: 2,
+                    border: 1,
+                    width: '2rem',
+                    height: '2rem',
+                    borderRadius: '50%',
+                    bgcolor: item.color.light,
+                    borderColor: item.color.main }}
+                    onClick={() => {setMainColor(dispatch, item.color)}}
+                    key={item.id} />
+                )
+              })}
+            </Box>
+            {/* Navbar Fixed*/}
+            <Typography variant="h6" color={mainColor.main} mt={5} mb={1}>Navbar Fixed</Typography>
+            <Switch onChange={() => {setFixNavbar(dispatch, !fixNavbar)}} checked={fixNavbar} color={findColor()} />
+          </Paper>
         </Grid>
       </Grid>
     </Container>

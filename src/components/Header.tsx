@@ -1,6 +1,9 @@
-import { styled } from '@mui/material/styles';
+// mui
+import { styled, useTheme } from '@mui/material/styles';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import { Toolbar, IconButton, Typography, Badge } from '@mui/material';
+
+// mui icon
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
@@ -12,9 +15,7 @@ interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
 
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps>(({ theme, open}) => ({
+const AppBar = styled(MuiAppBar)<AppBarProps>(({ theme, open}) => ({
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
@@ -35,42 +36,50 @@ export default function Header() {
   const {
     mainColor,
     sidenav,
-    category
+    category,
+    fixNavbar
   } = controller;
+  const theme = useTheme();
+
+  const toggleSidenav = () => {
+    if (fixNavbar === false) {
+      setSidenav(dispatch, !sidenav);
+    }
+  };
 
   return (
     <AppBar position="absolute" open={sidenav} style={{backgroundColor: mainColor.main}}>
-        <Toolbar
-          sx={{ pr: '24px', // keep right padding when drawer closed
-          }}
+      <Toolbar
+        sx={{ pr: '24px', // keep right padding when drawer closed
+        }}
+      >
+        <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={toggleSidenav}
+            sx={{
+              marginRight: '36px',
+              ...(sidenav && { display: 'none' }),
+            }}
         >
-         <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={() => {setSidenav(dispatch, !sidenav)}}
-              sx={{
-                marginRight: '36px',
-                ...(sidenav && { display: 'none' }),
-              }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              sx={{ flexGrow: 1 }}
-          >
-            {category}
-          </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+          <MenuIcon />
+        </IconButton>
+        <Typography
+            component="h1"
+            variant="h6"
+            color="inherit"
+            noWrap
+            sx={{ flexGrow: 1 }}
+        >
+          {category}
+        </Typography>
+        <IconButton color="inherit">
+          <Badge badgeContent={4} color={mainColor === theme.palette.secondary ? "primary" : "secondary"}>
+            <NotificationsIcon />
+          </Badge>
+        </IconButton>
+      </Toolbar>
+    </AppBar>
   );
 }

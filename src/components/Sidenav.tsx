@@ -1,8 +1,11 @@
 // mui
-import { Link, ListItemButton, ListItemIcon, ListItemText, ListSubheader, Toolbar, IconButton, List, Divider } from '@mui/material';
+import { ListItemButton, ListItemIcon, ListItemText, ListSubheader, Toolbar, IconButton, List, Divider } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+
+import { Link } from 'react-router-dom';
+
 // icons
 import AssignmentIcon from '@mui/icons-material/Assignment';
 
@@ -12,39 +15,42 @@ import { routes } from 'routes';
 const data = ['Current month', 'Last quarter', 'Year-end sale'];
 const drawerWidth: number = 240;
 
-const mainListItems = (
+const mainNavItems = (
   <>
     {routes.map(route => {
       return (
-        <Link href={route.route} variant='body2' color='#212121' underline="none" key={route.id}>
-          <ListItemButton>
-            <ListItemIcon>
-              {route.icon}
-            </ListItemIcon>
-            <ListItemText primary={route.id} />
-          </ListItemButton>
-        </Link>
-      );
-    })}
-  </>
-);
-
-const secondaryListItems = (
-  <>
-    <ListSubheader component="div" inset={true}> Saved reports </ListSubheader>
-    {data.map(item => {
-      return (
-        <ListItemButton key={item}>
-          <ListItemIcon children={<AssignmentIcon />} />
-          <ListItemText primary={item} />
+        <ListItemButton component={Link} to={route.route} key={"sidemenu-"+ route.id}>
+          <ListItemIcon>
+            {route.icon}
+          </ListItemIcon>
+            <ListItemText>
+              {route.id}
+            </ListItemText>
         </ListItemButton>
       );
     })}
   </>
 );
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
+const secondaryNavItems = (
+  <>
+    <ListSubheader component="div" inset={true}> Saved reports </ListSubheader>
+    {data.map(item => {
+      return (
+        <ListItemButton key={item}>
+          <ListItemIcon>
+            <AssignmentIcon />
+          </ListItemIcon>
+          <ListItemText>
+            {item}
+          </ListItemText>
+        </ListItemButton>
+      );
+    })}
+  </>
+);
+
+const Drawer = styled(MuiDrawer)(({ theme, open }) => ({
     '& .MuiDrawer-paper': {
       position: 'relative',
       whiteSpace: 'nowrap',
@@ -72,11 +78,14 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function Sidenav() {
   const [controller, dispatch] = useMaterialUIController();
   const {
-    sidenav
+    sidenav,
+    fixNavbar
   } = controller;
 
   const toggleSidenav = () => {
-    setSidenav(dispatch, !sidenav);
+    if (fixNavbar === false) {
+      setSidenav(dispatch, !sidenav);
+    }
   };
 
   return (
@@ -95,9 +104,9 @@ export default function Sidenav() {
       </Toolbar>
       <Divider />
       <List component="nav">
-        {mainListItems}
+        {mainNavItems}
         <Divider sx={{ my: 1 }} />
-        {secondaryListItems}
+        {secondaryNavItems}
       </List>
     </Drawer>
   );

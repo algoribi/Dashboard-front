@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
-import { Grid, Paper, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
-
+// mui
+import { Avatar, Grid, Paper, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 
 import { useMaterialUIController, setCategory } from 'context'
 import Title from 'components/Title';
@@ -50,11 +50,11 @@ const data = [
 ];
 
 export default function Customers() {
-  const [controller, dispatch] = useMaterialUIController();
+  const [, dispatch] = useMaterialUIController();
 
-  // useEffect(() => {
-  //   setCategory(dispatch, 'Customers');
-  // }, []);
+  useEffect(() => {
+    setCategory(dispatch, 'Customers');
+  }, []);
 
   return (
     <Grid item xs={12} mt={8}>
@@ -63,21 +63,25 @@ export default function Customers() {
       <Table size="small">
         <TableHead>
           <TableRow>
+            <TableCell>Profile-image</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Age</TableCell>
             <TableCell>Gender</TableCell>
             <TableCell>Address</TableCell>
-            <TableCell align="right">Purchase Amount</TableCell>
+            <TableCell align="center">Purchase-amount</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {data.map((item) => (
             <TableRow key={item.id}>
+              <TableCell>
+                <Avatar alt={item.name} src={`/images/profile/${item.id}.jpg`} />
+              </TableCell>
               <TableCell>{item.name}</TableCell>
               <TableCell>{item.age}</TableCell>
               <TableCell>{item.gender}</TableCell>
               <TableCell>{item.address}</TableCell>
-              <TableCell align="right">{`$${item.purchaseAmount}`}</TableCell>
+              <TableCell align="center">{`$${item.purchaseAmount}`}</TableCell>
             </TableRow>
           ))}
         </TableBody>

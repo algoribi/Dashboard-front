@@ -1,4 +1,6 @@
-import { Link, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
+
+import { Typography } from '@mui/material';
 
 import { useMaterialUIController } from 'context';
 import Title from 'components/Title';
@@ -9,7 +11,7 @@ const getDate = () => {
 }
 
 export default function Deposits() {
-  const [controller, dispatch] = useMaterialUIController();
+  const [controller, ] = useMaterialUIController();
   const {
     viewMore
   } = controller;
@@ -24,7 +26,7 @@ export default function Deposits() {
         {getDate()}
       </Typography>
       {viewMore
-        ? <Link color="primary" href="/wallet">View balance</Link>
+        ? <Link to="/wallet">View balance</Link>
         : <></>
       }
     </>

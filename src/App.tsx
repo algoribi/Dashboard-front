@@ -1,18 +1,15 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-import { getRoutes } from './routes';
-import Header from "components/Header";
-import Sidenav from "components/Sidenav";
-
 // @mui material components
 import CssBaseline from "@mui/material/CssBaseline";
 import { Box } from "@mui/system";
 
-import { useMaterialUIController, setCategory, setViewMore } from 'context'
+import { getRoutes } from './routes';
+import Header from "components/Header";
+import Sidenav from "components/Sidenav";
 
 export default function App() {
-  const [, dispatch] = useMaterialUIController();
   const { pathname } = useLocation();
   
   // setting page scroll to 0

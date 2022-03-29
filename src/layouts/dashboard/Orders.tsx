@@ -1,5 +1,7 @@
+import { Link } from 'react-router-dom';
+
 // mui
-import { Box, Link, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Box, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 
 import { useMaterialUIController } from 'context';
 import Title from 'components/Title';
@@ -48,7 +50,7 @@ const rows = [
 ];
 
 export default function Orders() {
-  const [controller, dispatch] = useMaterialUIController();
+  const [controller, ] = useMaterialUIController();
   const {
     viewMore
   } = controller;
@@ -79,7 +81,7 @@ export default function Orders() {
         </TableBody>
       </Table>
       {viewMore
-        ? <Link color="primary" href="/orders" mt={2}> See more orders </Link>
+        ? <Link to="/orders"> See more orders </Link>
         : <Box mt={2} />
       }
     </>

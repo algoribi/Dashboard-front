@@ -65,7 +65,7 @@ export default function TransactionTimeline() {
         <TimelineSeparator>
           <TimelineDot color="primary" />
         </TimelineSeparator>
-        <TimelineContent>Start</TimelineContent>
+        <TimelineContent>...</TimelineContent>
       </TimelineItem>
     </Timeline>
   );

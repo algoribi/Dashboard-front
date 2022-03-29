@@ -57,10 +57,10 @@ const routes : Type[] = [
 function getRoutes() {
   return (
     <Routes>
+      <Route path="/" element={<Navigate to="/dashboard" />} />
       {routes.map(route => {
         return <Route path={route.route} element={route.component} key={route.id} />;
       })}
-      <Route path="*" element={<Navigate to="/dashboard" />} />
     </Routes>
   );
 }
